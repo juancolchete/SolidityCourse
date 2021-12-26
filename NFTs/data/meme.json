@@ -1,0 +1,15 @@
+{
+    "attributes": [
+        {
+            "trait_type": "Level",
+            "value": "159732684"
+        },
+        {
+            "trait_type": "rarity",
+            "value": "epic"
+        }
+    ],
+    "description": "Here we have the doge",
+    "image": "https://gateway.pinata.cloud/ipfs/Qmds4Jp6WxepoM7j2rrZxGMEHWvMzugb29hQnKisaePvW5/FAeYeqBXIAAauxj.jpg",
+    "name": "Doge"
+}
