@@ -69,7 +69,7 @@ contract LuckyDraw {
         uint256 total = participantNumbers * ticketPrice;
         uint win = random() % participants.length;
         
-        participants[win].transfer((total.div(10) * 9));
+        participants[win].transfer(total.div(10) * 9);
 
         winners.push(participants[win]);
 
