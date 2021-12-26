@@ -1,0 +1,15 @@
+{
+    "attributes": [
+        {
+            "trait_type": "Level",
+            "value": "1882152252"
+        },
+        {
+            "trait_type": "rarity",
+            "value": "lendary"
+        }
+    ],
+    "description": "Here we have the shiba",
+    "image": "https://gateway.pinata.cloud/ipfs/Qmds4Jp6WxepoM7j2rrZxGMEHWvMzugb29hQnKisaePvW5/shiba.jfif",
+    "name": "Shiba"
+}
