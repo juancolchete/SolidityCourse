@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
+    mapping(address=>mapping(uint256=>uint256)) public stake;
 
     Counters.Counter private _tokenIdCounter;
 
@@ -26,12 +27,22 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
         super._burn(tokenId);
     }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage)returns (string memory)
     {
         return super.tokenURI(tokenId);
+    }
+
+    function startStake(uint256 idToken) public{
+        require(!isStake(idToken,msg.sender),"Your NFT is already in stake, choose another NFT to stake");
+        stake[msg.sender][idToken] = block.number;
+    }
+
+    function isStake(uint256 idToken, address end) public view returns(bool){
+        if(stake[end][idToken] <= 0){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }
