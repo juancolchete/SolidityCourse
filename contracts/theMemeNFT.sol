@@ -11,17 +11,27 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
     using SafeMath for uint256;
     using Counters for Counters.Counter;
     mapping(address=>mapping(uint256=>uint256)) public stake;
-    uint256 [] private rarities;
+    string[] private rarities;
+    // Rarity => Reward
+    mapping(uint16 => uint256) private _rewardRarity;
+    // TokenId => Rarity
+    mapping(uint256 => uint16) private _tokenRarity;
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("The Meme Nft", "TMN") {}
+    constructor() ERC721("The Meme Nft", "TMN") {
+        _rewardRarity[0] = 3472222222222;
+        _rewardRarity[1] = 34722222222222;
+        _rewardRarity[2] = 347222222222222;
+        _rewardRarity[3] = 3472222222222222;
+        rarities = ["garbage","simple", "rare","legend"];
+    }
 
     function safeMint(address to, string memory uri) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
+        _tokenRarity[tokenId] = 3;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
-        rarities = [1, 3, 7, 10];
     }
 
     // The following functions are overrides required by Solidity.
@@ -64,7 +74,7 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
         require(_exists(idToken),"Token that you have mention does not exist.");
         require(isStake(idToken,owner),"Your NFT is not stake, choose another NFT to calculate");
         uint256 calc = block.number.sub(stake[msg.sender][idToken]);
-        calc = calc.div(28800);
+        calc = calc.mul(_rewardRarity[_tokenRarity[idToken]]);
         return calc;
     }
 }
