@@ -3,11 +3,11 @@ pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol";
-import "github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
     using SafeERC20 for IERC20;
@@ -24,7 +24,7 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
     Counters.Counter private _tokenIdCounter;
     uint256 private stakeperiod;
 
-    constructor(address payable token) ERC721("The Meme Nft", "TMN") {
+    constructor(IERC20 token) ERC721("The Meme Nft", "TMN") {
         _rewardRarity[0] = 1000000000000;
         _rewardRarity[1] = 10000000000000;
         _rewardRarity[2] = 100000000000000;
@@ -91,6 +91,6 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
     }
 
     function sendRewards(uint256 quant) private{
-        _token.SafeTransferFrom(rewardWallet,msg.sender,quant);
+        _token.safeTransferFrom(rewardWallet,msg.sender,quant);
     }
 }
