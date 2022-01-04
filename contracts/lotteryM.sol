@@ -85,4 +85,7 @@ contract LuckyDraw {
     function endGame() external onlyOwner{
         setWinner();
     }
+    function listMaxParticipants() public view returns(uint256){
+        return maxParticipantNumbers;
+    }
 }
