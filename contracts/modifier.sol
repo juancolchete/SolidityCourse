@@ -6,7 +6,7 @@ contract modifierSample{
     address payable owner;
 
     constructor() public{
-        owner = msg.sender;
+        owner = payable(msg.sender);
     }
     
     modifier onlyOwner(){
