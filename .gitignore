@@ -2,3 +2,4 @@ build
 contracts/artifacts
 node_modules
 .deps
+package-lock.json
