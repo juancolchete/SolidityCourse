@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract LuckyDraw {
+contract Lottery8 {
     
     uint private maxParticipantNumbers;
     uint public participantNumbers;
