@@ -8,7 +8,7 @@ module.exports = {
   },
   compilers: {
     solc: {
-      version: "^0.8.0"
+      version: ">=0.4.22 <0.9.0"
     }
   }
 };
