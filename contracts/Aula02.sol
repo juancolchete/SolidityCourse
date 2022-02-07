@@ -18,7 +18,7 @@ contract Aula02{
         return lastSum + 1;
     }
 
-    function addBalance(address payable holderAddress) public view returns (uint256){
-        return balances[holderAddress];
+    function addBalance(address payable holderAddress, uint256 value) public returns (uint256){
+        return balances[holderAddress] += value;
     }
 }
