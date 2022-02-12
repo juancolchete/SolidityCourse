@@ -3,7 +3,7 @@
 pragma solidity ^0.8.9;
 
 contract list01{
-    function helloWorld() returns(string memory){
+    function helloWorld() public pure returns(string memory){
         return "Hello World";
     }
 }
