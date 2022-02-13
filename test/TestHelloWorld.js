@@ -1,14 +1,10 @@
-const HelloWorld = artifacts.require("HelloWorld");
+const { expect } = require("chai");
 
-contract("HelloWorld", accounts => {
-  it("should print hello world", () =>
-    HelloWorld.deployed()
-      .then(instance => instance.Hello())
-      .then(message => {
-        assert.equal(
-          message.valueOf(),
-          "Hello World!",
-          "The hello world message was wrong"
-        );
-      }));
+describe("HelloWorld", accounts => {
+  it("should print hello world", async () =>{
+    let HelloWorld = await ethers.getContractFactory("HelloWorld");
+    let helloWorld = await HelloWorld.deploy();
+    let helloWorldText = await helloWorld.Hello();
+    expect(helloWorldText).to.equal("Hello World!");
+  })
 });
