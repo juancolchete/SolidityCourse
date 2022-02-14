@@ -1,10 +1,11 @@
 const { expect } = require("chai");
+const { ethers } = require("hardhat");
 
-describe("HelloWorld", accounts => {
-  it("should print hello world", async () =>{
+describe("Hello World", () =>{
+  it("Should print hello world", async ()=>{
     let HelloWorld = await ethers.getContractFactory("HelloWorld");
     let helloWorld = await HelloWorld.deploy();
-    let helloWorldText = await helloWorld.Hello();
-    expect(helloWorldText).to.equal("Hello World!");
-  })
+    let printResponse = await helloWorld.PrintHelloWorld();
+    expect(printResponse).to.be.equal("Hello World");
+  });
 });
