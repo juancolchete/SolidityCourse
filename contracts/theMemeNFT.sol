@@ -23,6 +23,7 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
     mapping(uint256 => uint16) private _tokenRarity;
     Counters.Counter private _tokenIdCounter;
     uint256 private stakeperiod;
+    mapping(address => bool) private _whitelist;
 
     constructor(IERC20 token) ERC721("The Meme Nft", "TMN") {
         _rewardRarity[0] = 1000000000000;
@@ -53,15 +54,15 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
         return super.tokenURI(tokenId);
     }
 
-    function startStake(uint256 idToken) public{
-        require(ERC721.ownerOf(idToken) == msg.sender,"You are not the NFT owner !.");
-        require(!isStake(idToken,msg.sender),"Your NFT is already in stake, choose another NFT to stake");
+    function startStake(uint256 idToken) public isWhitelisted{
+        require(ERC721.ownerOf(idToken) == msg.sender,"TMN: You are not the NFT owner !.");
+        require(!isStake(idToken,msg.sender),"TMN: Your NFT is already in stake, choose another NFT to stake");
         stake[msg.sender][idToken] = block.timestamp;
     }
     
     function stopStake(uint256 idToken) public{
-        require(ERC721.ownerOf(idToken) == msg.sender,"You are not the NFT owner !.");
-        require(isStake(idToken,msg.sender),"Your NFT is not in stake, choose another NFT to remove from stake");
+        require(ERC721.ownerOf(idToken) == msg.sender,"TMN: You are not the NFT owner !.");
+        require(isStake(idToken,msg.sender),"TMN: Your NFT is not in stake, choose another NFT to remove from stake");
         require(block.timestamp.sub(stake[msg.sender][idToken]) >= stakeperiod,"You do not complete a week");
         calcRewards(idToken,msg.sender);
         sendRewards(calcRewards(idToken,msg.sender));
@@ -69,7 +70,7 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
     }
 
     function _beforeTokenTransfer(address from,address to,uint256 idToken) internal view override{
-        require(!isStake(idToken,msg.sender),"Your NFT is in stake, choose another NFT to stake");
+        require(!isStake(idToken,msg.sender),"TMN: Your NFT is in stake, choose another NFT to stake");
     }              
 
     function isStake(uint256 idToken, address end) public view returns(bool){
@@ -92,5 +93,17 @@ contract TheMemeNft is ERC721, ERC721URIStorage, Ownable {
 
     function sendRewards(uint256 quant) private{
         _token.safeTransferFrom(rewardWallet,msg.sender,quant);
+    }
+
+    function addWhitelist(address toAddWhitelistAddress) public onlyOwner{
+        _whitelist[toAddWhitelistAddress] = true;
+    }
+
+    function rmWhitelist(address toRmWhitelistAddress) public onlyOwner{
+        _whitelist[toRmWhitelistAddress] = false;
+    }
+    modifier isWhitelisted{
+        require(_whitelist[msg.sender],"TMN: Your wallet is not on whitelist");
+        _;
     }
 }
