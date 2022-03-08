@@ -5,10 +5,12 @@ require("dotenv").config();
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
-
+  let count = 0
   for (const account of accounts) {
     console.log(account.address);
+    count ++
   }
+  console.log(count)
 });
 
 // You need to export an object to set up your config
